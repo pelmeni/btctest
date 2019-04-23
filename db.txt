@@ -1,0 +1,130 @@
+USE [btcsrvdb]
+GO
+
+ALTER TABLE [dbo].[transaction] DROP CONSTRAINT [DF_transaction_created]
+GO
+
+/****** Object:  Table [dbo].[transaction]    Script Date: 23.04.2019 18:01:49 ******/
+DROP TABLE [dbo].[transaction]
+GO
+
+/****** Object:  Table [dbo].[transaction]    Script Date: 23.04.2019 18:01:49 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[transaction](
+	[id] [varchar](256) NOT NULL,
+	[txtime] [datetime] NOT NULL,
+	[category] [varchar](50) NOT NULL,
+	[wallettag] [varchar](50) NULL,
+	[address] [varchar](50) NOT NULL,
+	[amount] [float] NULL,
+	[fee] [float] NULL,
+	[confirmations] [int] NOT NULL,
+	[created] [datetime] NOT NULL,
+ CONSTRAINT [PK_transaction_1] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC,
+	[category] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[transaction] ADD  CONSTRAINT [DF_transaction_created]  DEFAULT (getdate()) FOR [created]
+GO
+
+
+USE [btcsrvdb]
+GO
+
+ALTER TABLE [dbo].[wallet] DROP CONSTRAINT [DF_wallet_created]
+GO
+
+/****** Object:  Table [dbo].[wallet]    Script Date: 23.04.2019 18:01:58 ******/
+DROP TABLE [dbo].[wallet]
+GO
+
+/****** Object:  Table [dbo].[wallet]    Script Date: 23.04.2019 18:01:58 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[wallet](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[wallettag] [varchar](50) NOT NULL,
+	[nodeurl] [varchar](255) NOT NULL,
+	[rpcuser] [varchar](50) NOT NULL,
+	[rpcpassword] [varchar](50) NOT NULL,
+	[created] [datetime] NOT NULL,
+	[txcount] [int] NULL,
+	[balance] [float] NULL,
+ CONSTRAINT [PK_wallet] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[wallet] ADD  CONSTRAINT [DF_wallet_created]  DEFAULT (getdate()) FOR [created]
+GO
+
+USE [btcsrvdb]
+GO
+
+ALTER TABLE [dbo].[walletaddress] DROP CONSTRAINT [DF_walletaddress_created]
+GO
+
+/****** Object:  Table [dbo].[walletaddress]    Script Date: 23.04.2019 18:02:05 ******/
+DROP TABLE [dbo].[walletaddress]
+GO
+
+/****** Object:  Table [dbo].[walletaddress]    Script Date: 23.04.2019 18:02:05 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[walletaddress](
+	[address] [nvarchar](50) NOT NULL,
+	[wallettag] [varchar](50) NOT NULL,
+	[walleturl] [varchar](250) NOT NULL,
+	[balance] [decimal](18, 0) NOT NULL,
+	[updated] [datetime] NOT NULL,
+	[created] [datetime] NOT NULL,
+ CONSTRAINT [PK_walletaddress] PRIMARY KEY CLUSTERED 
+(
+	[address] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[walletaddress] ADD  CONSTRAINT [DF_walletaddress_created]  DEFAULT (getdate()) FOR [created]
+GO
+
